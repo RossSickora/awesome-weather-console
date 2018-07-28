@@ -2,15 +2,14 @@ package com.weather;
 
 import com.weather.models.Main;
 import com.weather.models.WeatherResponse;
-import com.weather.presentation.PresentationAdapter;
-import org.junit.Assert;
+import com.weather.presentation.FahrenheitPresentationAdapter;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
 
-public class PresentationAdapterTest {
-    PresentationAdapter classUnderTest = new PresentationAdapter();
+public class FahrenheitPresentationAdapterTest {
+    FahrenheitPresentationAdapter classUnderTest = new FahrenheitPresentationAdapter();
     private double temp = 75.0;
     @Before
     public void setUp() throws Exception {
@@ -34,6 +33,12 @@ public class PresentationAdapterTest {
         WeatherResponse response = getResponse();
         String expectedTempValue = temp + " Fahrenheit";
         assertTrue(expectedTempValue.equalsIgnoreCase(classUnderTest.adaptWeatherResponseForTemperatureOnly(response)));
+    }
+
+    @Test
+    public void retrieveExitPrompt_prompts_zero_to_exit(){
+        String expected = "Enter 0 to exit";
+        assertTrue(expected.equalsIgnoreCase(classUnderTest.retrieveExitPrompt()));
     }
 
     private WeatherResponse getResponse() {
