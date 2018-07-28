@@ -7,7 +7,7 @@ public class WeatherResponsePresentationAdapter implements ConsolePresentationAd
     @Override
     public String getTemperature(WeatherResponse response){
         String responseString;
-        if(response.getMain() == null || response.getMain().getTemp() == null){
+        if(response == null || response.getMain() == null || response.getMain().getTemp() == null){
             responseString = "Unavailable";
         }
         else {

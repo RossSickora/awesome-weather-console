@@ -37,6 +37,13 @@ public class WeatherResponsePresentationAdapterTest {
         assertTrue(expectedTempValue.equalsIgnoreCase(classUnderTest.getTemperature(response)));
     }
 
+    @Test
+    public void adaptWeatherResponseForTemperatureOnly_provides_presentable_temperature_when_no_weather_response(){
+        WeatherResponse response = null;
+        String expectedTempValue = "Unavailable";
+        assertTrue(expectedTempValue.equalsIgnoreCase(classUnderTest.getTemperature(response)));
+    }
+
 
     private WeatherResponse getResponse() {
         WeatherResponse response = new WeatherResponse();
