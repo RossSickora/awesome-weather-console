@@ -1,5 +1,7 @@
 package com.weather.console;
 
+import com.weather.handlers.ConsoleExitHandler;
+import com.weather.handlers.ExitHandler;
 import com.weather.models.WeatherResponse;
 import com.weather.presentation.ConsolePresentationAdapter;
 import com.weather.presentation.FahrenheitPresentationAdapter;
@@ -12,6 +14,7 @@ public class ConsoleMain {
     public static void main(String args[]){
         WeatherRepository weatherRepository = new WeatherRepository(new WeatherServiceBuilder().build());
         ConsolePresentationAdapter presentationAdapter = new FahrenheitPresentationAdapter();
+        ExitHandler exitHandler = new ConsoleExitHandler();
         boolean runTilFalse = true;
         Scanner inputScanner = new Scanner(System.in);
         while(runTilFalse){
@@ -24,9 +27,8 @@ public class ConsoleMain {
 
             System.out.println(presentationAdapter.retrieveExitPrompt());
             int nextCode = inputScanner.nextInt();
-            if(nextCode == 0){
-                runTilFalse = false;
-            }
+            runTilFalse = exitHandler.handle(nextCode);
+
         }
 
     }
