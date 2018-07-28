@@ -5,11 +5,11 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class ConsoleExitHandlerTest {
-    ConsoleExitHandler classUnderTest;
+public class ZeroConsoleExitHandlerTest {
+    ZeroConsoleExitHandler classUnderTest;
     @Before
     public void setUp() throws Exception {
-        classUnderTest = new ConsoleExitHandler();
+        classUnderTest = new ZeroConsoleExitHandler();
     }
 
     @Test
