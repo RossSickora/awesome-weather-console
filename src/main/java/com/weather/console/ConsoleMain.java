@@ -1,5 +1,6 @@
 package com.weather.console;
 
+import com.weather.handlers.ConsoleInputHandler;
 import com.weather.handlers.ZeroConsoleExitHandler;
 import com.weather.handlers.ConsoleExitHandler;
 import com.weather.models.WeatherResponse;
@@ -17,16 +18,21 @@ public class ConsoleMain {
     public static void main(String args[]){
         WeatherRepository weatherRepository = new WeatherRepository(new WeatherServiceBuilder().build());
         ConsolePresentationAdapter presentationAdapter = new WeatherResponsePresentationAdapter();
+        ConsoleInputHandler inputHandler = new ConsoleInputHandler();
         ConsoleExitHandler consoleExitHandler = new ZeroConsoleExitHandler();
         boolean runTilFalse = true;
         Scanner inputScanner = new Scanner(System.in);
         while(runTilFalse){
             System.out.println(WELCOME_MESSAGE);
-            String cityName = inputScanner.next();
-            WeatherResponse response = weatherRepository.getWeatherFor(cityName);
-
-            System.out.println(cityName.concat(" weather:"));
-            System.out.println(presentationAdapter.getTemperature(response));
+            String cityName = inputScanner.nextLine();
+            if(inputHandler.isLettersOnly(cityName)){
+                WeatherResponse response = weatherRepository.getWeatherFor(cityName);
+                System.out.println(cityName.concat(" weather:"));
+                System.out.println(presentationAdapter.getTemperature(response));
+            } else {
+                System.out.println("City names can only contain letters, Let's try again!");
+                continue;
+            }
 
             System.out.println(EXIT_REQUEST);
             int nextCode = inputScanner.nextInt();
