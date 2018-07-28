@@ -17,7 +17,7 @@ public class ConsoleMain {
             WeatherResponse response = weatherRepository.getWeatherFor(cityName);
 
             System.out.println(cityName + " " + "weather:");
-            System.out.println(response.getMain().getTemp() + " Farenheit");
+            System.out.println(response.getMain().getTemp() + " Fahrenheit");
 
             System.out.println("Enter 0 to exit");
             int nextCode = inputScanner.nextInt();
