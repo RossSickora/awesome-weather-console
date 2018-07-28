@@ -36,27 +36,36 @@ public class WeatherRepositoryTest {
     @Test
     public void retrieveDoesNothingWhenExceptionThrownByService() throws IOException {
         Mockito.when(callMock.execute()).thenThrow(new IOException("Oh No, bad IO"));
-        classUnderTest.getWeatherFor(city);
-    }
+        WeatherResponse response = classUnderTest.getWeatherFor(city);
 
-    @Test
-    public void retrieveReturnsNullWhenFailToParseResponse() throws IOException {
-        Mockito.when(callMock.execute()).thenReturn(null);
-
-        WeatherResponse weatherResponse = classUnderTest.getWeatherFor(city);
-        assertNull(weatherResponse);
+        assertNotNull(response);
+        assertNull(response.getMain());
     }
 
     @Test
     public void retrieveReturnsAPIResponseBodyWhenCallSuccessful() throws IOException {
         WeatherResponse expectedModel = getValidModel();
         Response<WeatherResponse> expected = Mockito.mock(Response.class);
+        Mockito.when(expected.isSuccessful()).thenReturn(true);
         Mockito.when(expected.body()).thenReturn(expectedModel);
         Mockito.when(callMock.execute()).thenReturn(expected);
 
-        WeatherResponse albumsModels = classUnderTest.getWeatherFor(city);
-        assertNotNull(albumsModels);
-        assertEquals(expectedModel, albumsModels);
+        WeatherResponse weatherResponse = classUnderTest.getWeatherFor(city);
+        assertNotNull(weatherResponse);
+        assertEquals(expectedModel, weatherResponse);
+    }
+
+    @Test
+    public void retrieveReturnsEmptyAPIRsponseWhenCallIsNotSuccessful() throws IOException {
+        WeatherResponse expectedModel = getValidModel();
+        Response<WeatherResponse> expected = Mockito.mock(Response.class);
+        Mockito.when(expected.isSuccessful()).thenReturn(false);
+        Mockito.when(expected.body()).thenReturn(expectedModel);
+        Mockito.when(callMock.execute()).thenReturn(expected);
+
+        WeatherResponse weatherResponse = classUnderTest.getWeatherFor(city);
+        assertNotNull(weatherResponse);
+        assertNull(weatherResponse.getMain());
     }
 
     private WeatherResponse getValidModel() {
